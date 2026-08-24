@@ -10,7 +10,7 @@ import {
 import CycleCalendar from "./CycleCalendar";
 import CycleStats from "./CycleStats";
 import PhaseIndicator from "./PhaseIndicator";
-import { Calendar, Droplets, Moon, Save, Target } from "lucide-react";
+import { Calendar, Droplets, Moon, Save, Target, FileText, BarChart3, Lightbulb, AlertTriangle } from "lucide-react";
 
 const CycleCalculator: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -150,7 +150,7 @@ const CycleCalculator: React.FC = () => {
                 <div className="flex items-center mb-8">
                   <div className="relative">
                     <div className="w-14 h-14 bg-linear-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/25">
-                      <span className="text-2xl">📝</span>
+                      <FileText className="w-7 h-7 text-white" />
                     </div>
                     <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-400 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                       <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -447,9 +447,12 @@ const CycleCalculator: React.FC = () => {
 
                 {/* Carte d'information */}
                 <div className="bg-linear-to-r from-white to-purple-50 rounded-2xl shadow-xl p-6 border border-purple-100">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">
-                    📊 Statistiques du cycle
-                  </h3>
+                  <div className="flex items-center gap-3 mb-4">
+                    <BarChart3 className="w-5 h-5 text-gray-600" />
+                    <h3 className="text-xl font-bold text-gray-800">
+                      Statistiques du cycle
+                    </h3>
+                  </div>
 
                   <div className="space-y-4">
                     <div className="flex justify-between items-center p-3 bg-white rounded-xl border">
@@ -485,7 +488,9 @@ const CycleCalculator: React.FC = () => {
                 {/* Rappel */}
                 <div className="bg-linear-to-r from-amber-50 to-orange-50 rounded-2xl shadow-lg p-6 border border-amber-200">
                   <div className="flex items-start">
-                    <div className="text-2xl mr-4">💡</div>
+                    <div className="w-10 h-10 bg-amber-500/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-amber-400/20 flex-shrink-0">
+                      <Lightbulb className="w-5 h-5 text-amber-600" />
+                    </div>
                     <div>
                       <h4 className="font-bold text-amber-800 mb-2">Conseil</h4>
                       <p className="text-amber-700 text-sm">
@@ -504,7 +509,9 @@ const CycleCalculator: React.FC = () => {
         {/* Avertissement */}
         <div className="mt-12 p-6 bg-linear-to-r from-rose-50 to-pink-50 border border-rose-200 rounded-2xl shadow-sm">
           <div className="flex items-start">
-            <div className="text-2xl mr-4">⚠️</div>
+            <div className="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <AlertTriangle className="w-5 h-5 text-rose-600" />
+            </div>
             <div>
               <h4 className="font-bold text-rose-800 mb-2">
                 Avertissement médical

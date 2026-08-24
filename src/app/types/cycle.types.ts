@@ -32,10 +32,12 @@ export interface MonthlyCalendarDay {
   cycleDay: number;
 }
 
+import React from "react";
+
 export interface PhaseInfo {
   name: string;
   description: string;
   color: string;
-  icon: string;
+  icon: React.ReactNode;
   duration: number;
 }
