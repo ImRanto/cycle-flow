@@ -208,7 +208,7 @@ const CycleCalendar: React.FC<CycleCalendarProps> = ({
       </div>
 
       {/* Grille des jours de la semaine */}
-      <div className="grid grid-cols-7 gap-1 mb-2">
+      <div className="grid grid-cols-7 gap-1 mb-2" role="row">
         {WEEKDAY_HEADERS.map((day, index) => (
           <div
             key={index}
@@ -222,13 +222,15 @@ const CycleCalendar: React.FC<CycleCalendarProps> = ({
       </div>
 
       {/* Grille du calendrier */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-1" role="grid" aria-label="Calendrier du cycle">
         {calendarDays.map((day, index) => {
           const icon = getDayIcon(day);
 
           return (
             <div
               key={`${day.date}-${index}`}
+              role="gridcell"
+              aria-label={`${day.dayOfMonth} ${MONTH_NAMES[currentMonth]}${day.isOvulation ? " - Ovulation" : ""}${day.isFertile ? " - Jour fertile" : ""}${day.isPeriod ? " - Règles" : ""}${day.isToday ? " - Aujourd\u2019hui" : ""}`}
               className={`
                 relative p-2 md:p-3 rounded-xl text-center transition-all duration-200
                 hover:scale-105 hover:shadow-lg hover:z-10 cursor-default

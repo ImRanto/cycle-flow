@@ -31,6 +31,8 @@ export const ModernCreatorPanel: React.FC = () => {
             onClick={handleOpen}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
+            aria-label="Ouvrir le panneau du développeur"
+            aria-expanded={isExpanded}
             className="group relative bg-white border-l border-y border-gray-100 shadow-lg pl-4 pr-2 py-5 rounded-l-2xl transition-all duration-500 hover:pl-6 hover:bg-gray-50 active:scale-95"
           >
             <div className="flex flex-col items-center gap-3">
@@ -68,6 +70,7 @@ export const ModernCreatorPanel: React.FC = () => {
         <div className="w-[320px] sm:w-[360px] p-6 sm:p-8 relative">
           <button
             onClick={() => setIsExpanded(false)}
+            aria-label="Fermer le panneau"
             className="absolute top-5 right-5 p-2 hover:bg-gray-100 rounded-full text-gray-400 transition-transform hover:rotate-90 duration-300"
           >
             <X size={20} />
@@ -112,10 +115,12 @@ export const ModernCreatorPanel: React.FC = () => {
               <SocialIcon
                 icon={<Github size={16} />}
                 href="https://github.com/ImRanto"
+                label="Profil GitHub"
               />
               <SocialIcon
                 icon={<Linkedin size={16} />}
                 href="https://www.linkedin.com/in/handraina-ranto-78a00b299"
+                label="Profil LinkedIn"
               />
             </div>
           </div>
@@ -162,11 +167,12 @@ const ContactLink = ({ icon, label, value, href, color }: { icon: React.ReactNod
   </a>
 );
 
-const SocialIcon = ({ icon, href }: { icon: React.ReactNode; href: string }) => (
+const SocialIcon = ({ icon, href, label }: { icon: React.ReactNode; href: string; label: string }) => (
   <a
     href={href}
     target="_blank"
     rel="noopener noreferrer"
+    aria-label={label}
     className="flex-1 flex items-center justify-center p-3 bg-gray-50 rounded-xl text-gray-400 hover:bg-gray-900 hover:text-white transition-all shadow-sm"
   >
     {icon}

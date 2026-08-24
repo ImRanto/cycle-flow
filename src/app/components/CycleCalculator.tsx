@@ -13,10 +13,23 @@ import PhaseIndicator from "./PhaseIndicator";
 import { Calendar, Droplets, Moon, Save, Target } from "lucide-react";
 
 const CycleCalculator: React.FC = () => {
-  const today = new Date().toISOString().split("T")[0];
+  const [mounted, setMounted] = useState(false);
+  const [todayStr, setTodayStr] = useState("");
+  const [todayDisplay, setTodayDisplay] = useState("");
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    const now = new Date();
+    setTodayStr(now.toISOString().split("T")[0]);
+    setTodayDisplay(now.toLocaleDateString("fr-FR"));
+    setCurrentYear(now.getFullYear());
+    setMounted(true);
+  }, []);
+
+  const defaultStartDate = todayStr || new Date().toISOString().split("T")[0];
 
   const [cycleData, setCycleData] = useState<CycleData>({
-    startDate: today,
+    startDate: defaultStartDate,
     cycleLength: 28,
     periodLength: 4,
     lutealPhaseLength: 14,
@@ -26,6 +39,7 @@ const CycleCalculator: React.FC = () => {
   const [isCalculated, setIsCalculated] = useState(false);
 
   useEffect(() => {
+    if (!todayStr) return;
     try {
       const savedData = localStorage.getItem("lastCycleData");
       if (savedData) {
@@ -33,13 +47,16 @@ const CycleCalculator: React.FC = () => {
         setCycleData(parsedData);
         calculateAndSetResults(parsedData);
       } else {
-        calculateAndSetResults(cycleData);
+        const defaultData = { ...cycleData, startDate: todayStr };
+        setCycleData(defaultData);
+        calculateAndSetResults(defaultData);
       }
     } catch (error) {
       console.error("Erreur lors de la lecture des données sauvegardées:", error);
-      calculateAndSetResults(cycleData);
+      const defaultData = { ...cycleData, startDate: todayStr };
+      calculateAndSetResults(defaultData);
     }
-  }, []);
+  }, [todayStr]);
 
   const calculateAndSetResults = (data: CycleData) => {
     const calculatedResults = calculateCycle(data);
@@ -148,18 +165,23 @@ const CycleCalculator: React.FC = () => {
                     </h3>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
+                    <label htmlFor="startDate" className="sr-only">
+                      Date de début des règles
+                    </label>
                     <input
                       type="date"
+                      id="startDate"
                       name="startDate"
                       value={cycleData.startDate}
                       onChange={handleInputChange}
+                      aria-label="Date de début des règles"
                       className="flex-1 px-5 py-4 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 text-lg"
                       required
                     />
                     <div className="sm:w-48 p-4 bg-white rounded-xl border border-gray-200">
                       <div className="text-sm text-gray-500">Aujourd'hui</div>
                       <div className="font-semibold text-gray-800">
-                        {new Date().toLocaleDateString("fr-FR")}
+                        {mounted ? todayDisplay : "\u00A0"}
                       </div>
                     </div>
                   </div>
@@ -178,18 +200,22 @@ const CycleCalculator: React.FC = () => {
 
                     <div className="mb-6">
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-gray-600">Jours</span>
+                        <label htmlFor="cycleLength" className="text-gray-600">
+                          Jours
+                        </label>
                         <div className="flex items-center gap-2">
                           <input
                             type="number"
+                            id="cycleLength"
                             name="cycleLength"
                             min="21"
                             max="45"
                             value={cycleData.cycleLength}
                             onChange={handleInputChange}
+                            aria-label="Durée du cycle en jours"
                             className="w-24 px-4 py-3 text-center text-2xl font-bold text-purple-600 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
                           />
-                          <span className="text-sm text-gray-400">jours</span>
+                          <span className="text-sm text-gray-400" aria-hidden="true">jours</span>
                         </div>
                       </div>
 
@@ -199,6 +225,8 @@ const CycleCalculator: React.FC = () => {
                             key={option.days}
                             type="button"
                             onClick={() => handleQuickSelect(option.days)}
+                            aria-label={`Cycle de ${option.days} jours - ${option.label}`}
+                            aria-pressed={cycleData.cycleLength === option.days}
                             className={`px-4 py-2 rounded-lg transition-all duration-300 ${
                               cycleData.cycleLength === option.days
                                 ? "bg-purple-600 text-white shadow-lg"
@@ -227,18 +255,22 @@ const CycleCalculator: React.FC = () => {
 
                     <div className="mb-6">
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-gray-600">Jours</span>
+                        <label htmlFor="periodLength" className="text-gray-600">
+                          Jours
+                        </label>
                         <div className="flex items-center gap-2">
                           <input
                             type="number"
+                            id="periodLength"
                             name="periodLength"
                             min="2"
                             max="10"
                             value={cycleData.periodLength}
                             onChange={handleInputChange}
+                            aria-label="Durée des règles en jours"
                             className="w-24 px-4 py-3 text-center text-2xl font-bold text-pink-600 border-2 border-pink-200 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
                           />
-                          <span className="text-sm text-gray-400">jours</span>
+                          <span className="text-sm text-gray-400" aria-hidden="true">jours</span>
                         </div>
                       </div>
 
@@ -262,7 +294,7 @@ const CycleCalculator: React.FC = () => {
 
                 {/* Phase lutéale */}
                 <div className="bg-linear-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
-                  <label className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                  <label htmlFor="lutealPhaseLength" className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                     <Moon className="w-5 h-5 text-indigo-600" />
                     Phase lutéale
                   </label>
@@ -271,11 +303,17 @@ const CycleCalculator: React.FC = () => {
                       <div className="text-gray-600 mb-2">Durée (jours)</div>
                       <input
                         type="range"
+                        id="lutealPhaseLength"
                         name="lutealPhaseLength"
                         min="10"
                         max="18"
                         value={cycleData.lutealPhaseLength}
                         onChange={handleInputChange}
+                        aria-label="Durée de la phase lutéale en jours"
+                        aria-valuemin={10}
+                        aria-valuemax={18}
+                        aria-valuenow={cycleData.lutealPhaseLength}
+                        aria-valuetext={`${cycleData.lutealPhaseLength} jours`}
                         className="w-full h-3 bg-linear-to-r from-blue-200 to-indigo-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-600"
                       />
                       <div className="flex justify-between text-sm text-gray-500 mt-2">
@@ -407,7 +445,7 @@ const CycleCalculator: React.FC = () => {
           <div className="text-center text-gray-500 text-sm">
             <p>
               CycleFlow by Ranto • Application de suivi menstruel •{" "}
-              {new Date().getFullYear()}
+              {currentYear || new Date().getFullYear()}
             </p>
             <p className="mt-2">Conçu avec soin pour votre bien-être</p>
           </div>

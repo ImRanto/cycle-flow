@@ -37,7 +37,14 @@ const PhaseIndicator: React.FC<PhaseIndicatorProps> = ({
             {Math.round(phaseProgress)}%
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
+        <div
+          className="w-full bg-gray-200 rounded-full h-3"
+          role="progressbar"
+          aria-valuenow={Math.round(phaseProgress)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`Progression de la phase ${phaseInfo.name}: ${Math.round(phaseProgress)}%`}
+        >
           <div
             className="bg-linear-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all duration-500"
             style={{ width: `${phaseProgress}%` }}
@@ -48,12 +55,12 @@ const PhaseIndicator: React.FC<PhaseIndicatorProps> = ({
       {/* Indicateur des phases */}
       <div className="relative pt-2">
         <div className="flex justify-between mb-8">
-          {phases.map((phase, index) => {
+          {phases.map((phase) => {
             const info = getPhaseInfo(phase);
             const isActive = phase === currentPhase;
 
             return (
-              <div key={phase} className="relative flex flex-col items-center">
+              <div key={phase} className="relative flex flex-col items-center" aria-current={isActive ? "step" : undefined}>
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center text-lg mb-2 transition-all duration-300 ${
                     isActive
