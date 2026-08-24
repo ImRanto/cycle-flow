@@ -107,7 +107,7 @@ const CycleCalculator: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-r from-gray-50 to-purple-50 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto pr-16 lg:pr-20">
         {/* En-tête */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
@@ -179,7 +179,7 @@ const CycleCalculator: React.FC = () => {
                     <div className="mb-6">
                       <div className="flex items-center justify-between mb-4">
                         <span className="text-gray-600">Jours</span>
-                        <div className="relative">
+                        <div className="flex items-center gap-2">
                           <input
                             type="number"
                             name="cycleLength"
@@ -187,11 +187,9 @@ const CycleCalculator: React.FC = () => {
                             max="45"
                             value={cycleData.cycleLength}
                             onChange={handleInputChange}
-                            className="w-32 px-4 py-3 text-center text-2xl font-bold text-purple-600 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
+                            className="w-24 px-4 py-3 text-center text-2xl font-bold text-purple-600 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
                           />
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            jours
-                          </div>
+                          <span className="text-sm text-gray-400">jours</span>
                         </div>
                       </div>
 
@@ -230,7 +228,7 @@ const CycleCalculator: React.FC = () => {
                     <div className="mb-6">
                       <div className="flex items-center justify-between mb-4">
                         <span className="text-gray-600">Jours</span>
-                        <div className="relative">
+                        <div className="flex items-center gap-2">
                           <input
                             type="number"
                             name="periodLength"
@@ -238,11 +236,9 @@ const CycleCalculator: React.FC = () => {
                             max="10"
                             value={cycleData.periodLength}
                             onChange={handleInputChange}
-                            className="w-32 px-4 py-3 text-center text-2xl font-bold text-pink-600 border-2 border-pink-200 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
+                            className="w-24 px-4 py-3 text-center text-2xl font-bold text-pink-600 border-2 border-pink-200 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
                           />
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            jours
-                          </div>
+                          <span className="text-sm text-gray-400">jours</span>
                         </div>
                       </div>
 

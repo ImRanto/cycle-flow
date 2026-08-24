@@ -81,7 +81,7 @@ const PhaseIndicator: React.FC<PhaseIndicatorProps> = ({
         </div>
 
         {/* Ligne de connexion */}
-        <div className="absolute top-6 left-0 right-0 h-1 bg-linear-to-r from-red-300 via-blue-300 via-pink-300 to-purple-300 transform -translate-y-1/2"></div>
+        <div className="absolute top-6 left-0 right-0 h-1 bg-linear-to-r from-red-300 via-pink-300 to-purple-300 transform -translate-y-1/2"></div>
       </div>
 
       <div className="mt-4 p-4 bg-gray-50 rounded-xl">
