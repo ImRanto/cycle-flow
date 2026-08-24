@@ -1,7 +1,7 @@
 import {
   CycleData,
   CycleResults,
-  CalendarDay,
+  MonthlyCalendarDay,
   PhaseInfo,
 } from "../types/cycle.types";
 
@@ -73,64 +73,142 @@ export const calculateCycle = (data: CycleData): CycleResults => {
   };
 };
 
-export const generateCalendar = (
-  startDate: string,
+export const generateMonthlyCalendar = (
+  year: number,
+  month: number,
+  cycleStartDate: string,
   cycleLength: number,
   periodLength: number,
-  results: CycleResults
-): CalendarDay[] => {
-  // Toujours retourner un tableau, même en cas d'erreur
+  lutealPhaseLength: number
+): MonthlyCalendarDay[] => {
   try {
-    const calendarDays: CalendarDay[] = [];
-    const start = new Date(startDate);
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date();
+    const todayStr = today.toISOString().split("T")[0];
 
-    // Validation des données
-    if (!startDate || isNaN(start.getTime())) {
-      return []; // Retourne tableau vide si date invalide
-    }
+    // Premier jour du mois
+    const firstDay = new Date(year, month, 1);
+    // Dernier jour du mois
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
 
-    // Vérifier si les nombres sont valides
-    const validCycleLength = Math.max(1, Math.min(cycleLength, 45)); // Limite raisonnable
-    const validPeriodLength = Math.max(1, Math.min(periodLength, 10)); // Limite raisonnable
-    const lutealPhaseLength = results.lutealPhaseLength || 14;
+    // Jour de la semaine du premier jour (0=Dimanche, 1=Lundi...)
+    // On convertit en commençant par Lundi (0=Lun, 6=Dim)
+    const firstDayOfWeek = (firstDay.getDay() + 6) % 7;
 
-    for (let i = 0; i < validCycleLength; i++) {
-      const currentDate = new Date(start);
-      currentDate.setDate(currentDate.getDate() + i);
-      const dateStr = currentDate.toISOString().split("T")[0];
-      const dayOfWeek = currentDate.getDay();
+    const calendarDays: MonthlyCalendarDay[] = [];
+    const startDateObj = new Date(cycleStartDate);
 
-      // Déterminer la phase
-      let phase = "luteal";
-      if (i < validPeriodLength) {
-        phase = "menstrual";
-      } else if (i < validCycleLength - lutealPhaseLength) {
-        phase = "follicular";
-      } else if (i === validCycleLength - lutealPhaseLength) {
-        phase = "ovulation";
-      }
+    // Remplir les cases vides avant le premier jour du mois
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      const d = new Date(firstDay);
+      d.setDate(d.getDate() - (firstDayOfWeek - i));
+      const dateStr = d.toISOString().split("T")[0];
+      const dayOfWeek = (d.getDay() + 6) % 7;
+      const cycleDayNum = getCycleDayForDate(d, startDateObj, cycleLength);
+      const phaseInfo = getPhaseForDay(cycleDayNum, cycleLength, periodLength, lutealPhaseLength);
+      const ovulationDay = cycleLength - lutealPhaseLength;
+      const fertileStartDay = ovulationDay - 5;
+      const fertileEndDay = ovulationDay;
 
       calendarDays.push({
         date: dateStr,
-        day: i + 1,
-        dayOfMonth: currentDate.getDate(),
-        isOvulation: dateStr === results.ovulationDate,
-        isFertile:
-          dateStr >= results.fertileWindow.start &&
-          dateStr <= results.fertileWindow.end,
-        isPeriod: i < validPeriodLength,
-        isToday: dateStr === today,
-        isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
-        phase,
+        dayOfMonth: d.getDate(),
+        isCurrentMonth: false,
+        isOvulation: cycleDayNum === ovulationDay,
+        isFertile: cycleDayNum >= fertileStartDay && cycleDayNum <= fertileEndDay,
+        isPeriod: cycleDayNum >= 1 && cycleDayNum <= periodLength,
+        isToday: dateStr === todayStr,
+        isWeekend: dayOfWeek === 5 || dayOfWeek === 6,
+        phase: phaseInfo,
+        cycleDay: cycleDayNum,
       });
     }
 
-    return calendarDays; // ⬅️ TOUJOURS retourner un tableau
+    // Jours du mois
+    for (let day = 1; day <= daysInMonth; day++) {
+      const d = new Date(year, month, day);
+      const dateStr = d.toISOString().split("T")[0];
+      const dayOfWeek = (d.getDay() + 6) % 7;
+      const cycleDayNum = getCycleDayForDate(d, startDateObj, cycleLength);
+      const phaseInfo = getPhaseForDay(cycleDayNum, cycleLength, periodLength, lutealPhaseLength);
+      const ovulationDay = cycleLength - lutealPhaseLength;
+      const fertileStartDay = ovulationDay - 5;
+      const fertileEndDay = ovulationDay;
+
+      calendarDays.push({
+        date: dateStr,
+        dayOfMonth: day,
+        isCurrentMonth: true,
+        isOvulation: cycleDayNum === ovulationDay,
+        isFertile: cycleDayNum >= fertileStartDay && cycleDayNum <= fertileEndDay,
+        isPeriod: cycleDayNum >= 1 && cycleDayNum <= periodLength,
+        isToday: dateStr === todayStr,
+        isWeekend: dayOfWeek === 5 || dayOfWeek === 6,
+        phase: phaseInfo,
+        cycleDay: cycleDayNum,
+      });
+    }
+
+    // Compléter la grille (toujours 42 cases = 6 lignes)
+    const remaining = 42 - calendarDays.length;
+    for (let i = 1; i <= remaining; i++) {
+      const d = new Date(year, month + 1, i);
+      const dateStr = d.toISOString().split("T")[0];
+      const dayOfWeek = (d.getDay() + 6) % 7;
+      const cycleDayNum = getCycleDayForDate(d, startDateObj, cycleLength);
+      const phaseInfo = getPhaseForDay(cycleDayNum, cycleLength, periodLength, lutealPhaseLength);
+      const ovulationDay = cycleLength - lutealPhaseLength;
+      const fertileStartDay = ovulationDay - 5;
+      const fertileEndDay = ovulationDay;
+
+      calendarDays.push({
+        date: dateStr,
+        dayOfMonth: i,
+        isCurrentMonth: false,
+        isOvulation: cycleDayNum === ovulationDay,
+        isFertile: cycleDayNum >= fertileStartDay && cycleDayNum <= fertileEndDay,
+        isPeriod: cycleDayNum >= 1 && cycleDayNum <= periodLength,
+        isToday: dateStr === todayStr,
+        isWeekend: dayOfWeek === 5 || dayOfWeek === 6,
+        phase: phaseInfo,
+        cycleDay: cycleDayNum,
+      });
+    }
+
+    return calendarDays;
   } catch (error) {
-    console.error("Erreur dans generateCalendar:", error);
-    return []; // ⬅️ IMPORTANT: Retourner un tableau vide en cas d'erreur
+    console.error("Erreur dans generateMonthlyCalendar:", error);
+    return [];
   }
+};
+
+// Calcule le jour du cycle pour une date donnée (en projetant le cycle dans le passé et le futur)
+const getCycleDayForDate = (
+  date: Date,
+  cycleStartDate: Date,
+  cycleLength: number
+): number => {
+  const diffMs = date.getTime() - cycleStartDate.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  // Utiliser le modulo pour gérer les cycles passés et futurs
+  let cycleDay = (diffDays % cycleLength) + 1;
+  // Gérer les jours négatifs (avant la première date de cycle)
+  if (cycleDay <= 0) cycleDay += cycleLength;
+  return cycleDay;
+};
+
+// Détermine la phase pour un jour donné du cycle
+const getPhaseForDay = (
+  cycleDay: number,
+  cycleLength: number,
+  periodLength: number,
+  lutealPhaseLength: number
+): string => {
+  const ovulationDay = cycleLength - lutealPhaseLength;
+  if (cycleDay <= periodLength) return "menstrual";
+  if (cycleDay < ovulationDay) return "follicular";
+  if (cycleDay === ovulationDay) return "ovulation";
+  return "luteal";
 };
 
 export const formatDate = (dateString: string): string => {

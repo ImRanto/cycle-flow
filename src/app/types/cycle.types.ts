@@ -19,16 +19,17 @@ export interface CycleResults {
   lutealPhaseLength: number;
 }
 
-export interface CalendarDay {
+export interface MonthlyCalendarDay {
   date: string;
-  day: number;
   dayOfMonth: number;
+  isCurrentMonth: boolean;
   isOvulation: boolean;
   isFertile: boolean;
   isPeriod: boolean;
   isToday: boolean;
   isWeekend: boolean;
   phase: string;
+  cycleDay: number;
 }
 
 export interface PhaseInfo {
