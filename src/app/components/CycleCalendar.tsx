@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { CalendarDays, Droplets, Egg, CircleDot, Calendar } from "lucide-react";
 import { CalendarDay, CycleResults } from "../types/cycle.types";

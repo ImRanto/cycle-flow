@@ -26,12 +26,17 @@ const CycleCalculator: React.FC = () => {
   const [isCalculated, setIsCalculated] = useState(false);
 
   useEffect(() => {
-    const savedData = localStorage.getItem("lastCycleData");
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      setCycleData(parsedData);
-      calculateAndSetResults(parsedData);
-    } else {
+    try {
+      const savedData = localStorage.getItem("lastCycleData");
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        setCycleData(parsedData);
+        calculateAndSetResults(parsedData);
+      } else {
+        calculateAndSetResults(cycleData);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la lecture des données sauvegardées:", error);
       calculateAndSetResults(cycleData);
     }
   }, []);

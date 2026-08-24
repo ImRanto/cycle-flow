@@ -137,7 +137,7 @@ export const ModernCreatorPanel: React.FC = () => {
   );
 };
 
-const ContactLink = ({ icon, label, value, href, color }: any) => (
+const ContactLink = ({ icon, label, value, href, color }: { icon: React.ReactNode; label: string; value: string; href: string; color: string }) => (
   <a
     href={href}
     target="_blank"
@@ -162,7 +162,7 @@ const ContactLink = ({ icon, label, value, href, color }: any) => (
   </a>
 );
 
-const SocialIcon = ({ icon, href }: any) => (
+const SocialIcon = ({ icon, href }: { icon: React.ReactNode; href: string }) => (
   <a
     href={href}
     target="_blank"

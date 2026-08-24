@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Application simple et élégante pour suivre votre cycle menstruel, calculer l'ovulation et les périodes fertiles",
   icons: {
-    icon: "/cycle.jpg",
+    icon: "/cycle.ico",
   },
 };
 
@@ -18,10 +18,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/cycle.ico" type="image/x-icon"/>
-      </head>
       <body
         className={`bg-linear-to-br from-pink-50 to-purple-50`}
       >

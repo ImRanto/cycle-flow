@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Target,
@@ -162,8 +164,11 @@ const CycleStats: React.FC<CycleStatsProps> = ({ results }) => {
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center">
             <div className="text-sm text-gray-500">Phase actuelle</div>
-            <div className="font-bold text-lg text-purple-700 capitalize">
-              {results.currentPhase}
+            <div className="font-bold text-lg text-purple-700">
+              {results.currentPhase === "menstrual" && "Menstruelle"}
+              {results.currentPhase === "follicular" && "Folliculaire"}
+              {results.currentPhase === "ovulation" && "Ovulation"}
+              {results.currentPhase === "luteal" && "Lutéale"}
             </div>
           </div>
           <div className="text-center">
