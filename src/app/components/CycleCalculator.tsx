@@ -139,69 +139,98 @@ const CycleCalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Colonne gauche - Formulaire */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Carte principale du formulaire */}
-            <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-8">
-              <div className="flex items-center mb-8">
-                <div className="w-12 h-12 bg-linear-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-4">
-                  <span className="text-2xl text-white">📝</span>
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    Informations du cycle
-                  </h2>
-                  <p className="text-gray-500">
-                    Renseignez vos données pour des calculs précis
-                  </p>
-                </div>
-              </div>
+            {/* Carte principale du formulaire — Premium Glass */}
+            <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+              <div className="absolute inset-0 bg-white/80 backdrop-blur-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 via-white to-pink-50/50"></div>
+              <div className="absolute -top-20 -right-20 w-60 h-60 bg-purple-200/30 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-pink-200/20 rounded-full blur-3xl"></div>
 
-              <form className="space-y-8">
-                {/* Date de début */}
-                <div className="bg-linear-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Calendar className="w-6 h-6 text-purple-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      Date de début des règles
-                    </h3>
+              <div className="relative z-10 p-6 md:p-8">
+                <div className="flex items-center mb-8">
+                  <div className="relative">
+                    <div className="w-14 h-14 bg-linear-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/25">
+                      <span className="text-2xl">📝</span>
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-400 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </div>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <label htmlFor="startDate" className="sr-only">
-                      Date de début des règles
-                    </label>
-                    <input
-                      type="date"
-                      id="startDate"
-                      name="startDate"
-                      value={cycleData.startDate}
-                      onChange={handleInputChange}
-                      aria-label="Date de début des règles"
-                      className="flex-1 px-5 py-4 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 text-lg"
-                      required
-                    />
-                    <div className="sm:w-48 p-4 bg-white rounded-xl border border-gray-200">
-                      <div className="text-sm text-gray-500">Aujourd'hui</div>
-                      <div className="font-semibold text-gray-800">
-                        {mounted ? todayDisplay : "\u00A0"}
+                  <div className="ml-4">
+                    <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+                      Informations du cycle
+                    </h2>
+                    <p className="text-gray-500">
+                      Renseignez vos données pour des calculs précis
+                    </p>
+                  </div>
+                </div>
+
+                <form className="space-y-6">
+                {/* Date de début — Premium Glass */}
+                <div className="relative overflow-hidden rounded-2xl border border-white/40 shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-transparent"></div>
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-purple-300/20 rounded-full -translate-y-8 translate-x-8 blur-2xl"></div>
+
+                  <div className="relative z-10 p-6">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center border border-purple-100 shadow-sm">
+                        <Calendar className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          Date de début des règles
+                        </h3>
+                        <p className="text-xs text-gray-400">Sélectionnez la date de vos dernières règles</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <label htmlFor="startDate" className="sr-only">
+                        Date de début des règles
+                      </label>
+                      <input
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                        value={cycleData.startDate}
+                        onChange={handleInputChange}
+                        aria-label="Date de début des règles"
+                        className="flex-1 px-5 py-4 bg-white/60 backdrop-blur-sm border-2 border-purple-200/60 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 text-lg text-gray-800"
+                        required
+                      />
+                      <div className="sm:w-48 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200/60">
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">Aujourd'hui</div>
+                        <div className="font-bold text-gray-800 text-lg mt-0.5">
+                          {mounted ? todayDisplay : "\u00A0"}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Durées */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Durées — Premium Glass */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Durée du cycle */}
-                  <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                    <div className="flex items-center gap-3 mb-6">
-                      <Target className="w-6 h-6 text-purple-600" />
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        Durée de votre cycle
-                      </h3>
-                    </div>
+                  <div className="relative overflow-hidden rounded-2xl border border-white/40 shadow-lg">
+                    <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/5 to-transparent"></div>
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-violet-300/20 rounded-full -translate-y-6 translate-x-6 blur-2xl"></div>
 
-                    <div className="mb-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <label htmlFor="cycleLength" className="text-gray-600">
-                          Jours
+                    <div className="relative z-10 p-6">
+                      <div className="flex items-center gap-3 mb-5">
+                        <div className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center border border-violet-100 shadow-sm">
+                          <Target className="w-5 h-5 text-violet-600" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">
+                            Durée du cycle
+                          </h3>
+                          <p className="text-xs text-gray-400">Typiquement 28 jours</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between mb-5">
+                        <label htmlFor="cycleLength" className="text-sm text-gray-500">
+                          Nombre de jours
                         </label>
                         <div className="flex items-center gap-2">
                           <input
@@ -213,13 +242,13 @@ const CycleCalculator: React.FC = () => {
                             value={cycleData.cycleLength}
                             onChange={handleInputChange}
                             aria-label="Durée du cycle en jours"
-                            className="w-24 px-4 py-3 text-center text-2xl font-bold text-purple-600 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
+                            className="w-20 px-3 py-2 text-center text-2xl font-extrabold text-violet-600 bg-white/60 backdrop-blur-sm border-2 border-violet-200/60 rounded-xl focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition-all tabular-nums"
                           />
-                          <span className="text-sm text-gray-400" aria-hidden="true">jours</span>
+                          <span className="text-sm text-gray-400" aria-hidden="true">j</span>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-3 mt-6">
+                      <div className="flex flex-wrap gap-2">
                         {quickCycleOptions.map((option) => (
                           <button
                             key={option.days}
@@ -227,36 +256,40 @@ const CycleCalculator: React.FC = () => {
                             onClick={() => handleQuickSelect(option.days)}
                             aria-label={`Cycle de ${option.days} jours - ${option.label}`}
                             aria-pressed={cycleData.cycleLength === option.days}
-                            className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+                            className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                               cycleData.cycleLength === option.days
-                                ? "bg-purple-600 text-white shadow-lg"
-                                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                ? "bg-violet-600 text-white shadow-lg shadow-violet-500/25 scale-105"
+                                : "bg-white/50 text-gray-600 hover:bg-white/80 border border-gray-200/50"
                             }`}
                           >
-                            {option.label} ({option.days}j)
+                            {option.label}
                           </button>
                         ))}
                       </div>
                     </div>
-
-                    <div className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">
-                      <span className="font-medium">Standard :</span> 28 jours
-                    </div>
                   </div>
 
                   {/* Durée des règles */}
-                  <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                    <div className="flex items-center gap-3 mb-6">
-                      <Droplets className="w-6 h-6 text-pink-600" />
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        Durée des règles
-                      </h3>
-                    </div>
+                  <div className="relative overflow-hidden rounded-2xl border border-white/40 shadow-lg">
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 via-pink-500/5 to-transparent"></div>
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-rose-300/20 rounded-full -translate-y-6 translate-x-6 blur-2xl"></div>
 
-                    <div className="mb-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <label htmlFor="periodLength" className="text-gray-600">
-                          Jours
+                    <div className="relative z-10 p-6">
+                      <div className="flex items-center gap-3 mb-5">
+                        <div className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center border border-rose-100 shadow-sm">
+                          <Droplets className="w-5 h-5 text-rose-600" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">
+                            Durée des règles
+                          </h3>
+                          <p className="text-xs text-gray-400">Typiquement 3-7 jours</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between mb-5">
+                        <label htmlFor="periodLength" className="text-sm text-gray-500">
+                          Nombre de jours
                         </label>
                         <div className="flex items-center gap-2">
                           <input
@@ -268,26 +301,21 @@ const CycleCalculator: React.FC = () => {
                             value={cycleData.periodLength}
                             onChange={handleInputChange}
                             aria-label="Durée des règles en jours"
-                            className="w-24 px-4 py-3 text-center text-2xl font-bold text-pink-600 border-2 border-pink-200 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
+                            className="w-20 px-3 py-2 text-center text-2xl font-extrabold text-rose-600 bg-white/60 backdrop-blur-sm border-2 border-rose-200/60 rounded-xl focus:border-rose-500 focus:ring-2 focus:ring-rose-200 transition-all tabular-nums"
                           />
-                          <span className="text-sm text-gray-400" aria-hidden="true">jours</span>
+                          <span className="text-sm text-gray-400" aria-hidden="true">j</span>
                         </div>
                       </div>
 
-                      <div className="mt-6">
-                        <div className="text-sm text-gray-500 mb-2">
-                          Date de fin estimée :
+                      {/* Date de fin estimée */}
+                      <div className="p-3 bg-white/50 backdrop-blur-sm rounded-xl border border-rose-100/50">
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium mb-1">
+                          Fin estimée
                         </div>
-                        {results && (
-                          <div className="text-lg font-semibold text-gray-800 bg-pink-50 p-3 rounded-lg">
-                            {formatShortDate(results.periodEndDate)}
-                          </div>
-                        )}
+                        <div className="text-lg font-bold text-rose-600">
+                          {results ? formatShortDate(results.periodEndDate) : "\u00A0"}
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">
-                      <span className="font-medium">Typique :</span> 3-7 jours
                     </div>
                   </div>
                 </div>
@@ -417,17 +445,22 @@ const CycleCalculator: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Bouton d'enregistrement */}
+                {/* Bouton d'enregistrement — Premium */}
                 <button
                   type="button"
                   id="saveButton"
                   onClick={handleSave}
-                  className="group w-full bg-linear-to-r from-gray-900 to-black text-white font-semibold py-4 px-6 rounded-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 hover:-translate-y-1"
+                  className="group relative w-full overflow-hidden rounded-2xl shadow-xl shadow-purple-500/20 hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 hover:-translate-y-0.5"
                 >
-                  <Save className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  <span>Enregistrer mes préférences</span>
+                  <div className="absolute inset-0 bg-linear-to-r from-purple-600 via-violet-600 to-pink-600"></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-purple-500 via-violet-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative z-10 py-4 px-6 flex items-center justify-center gap-3">
+                    <Save className="w-5 h-5 text-white group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="text-white font-semibold text-lg">Enregistrer mes préférences</span>
+                  </div>
                 </button>
               </form>
+              </div>
             </div>
 
             {/* Calendrier */}
