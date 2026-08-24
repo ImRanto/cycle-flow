@@ -91,7 +91,7 @@ export const ModernCreatorPanel: React.FC = () => {
           <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-100">
             <p className="text-sm text-gray-600 leading-relaxed italic">
               "Je conçois des applications qui allient beauté et utilité.
-              CycleFlow est mon engagement pour une santé mieux comprise."
+              Cycle-nao est mon engagement pour une santé mieux comprise."
             </p>
           </div>
 

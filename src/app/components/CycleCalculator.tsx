@@ -531,7 +531,7 @@ const CycleCalculator: React.FC = () => {
         <footer className="mt-12 pt-8 border-t border-gray-200">
           <div className="text-center text-gray-500 text-sm">
             <p>
-              CycleFlow by Ranto • Application de suivi menstruel •{" "}
+              Cycle-nao by Ranto • Application de suivi menstruel •{" "}
               {currentYear || new Date().getFullYear()}
             </p>
             <p className="mt-2">Conçu avec soin pour votre bien-être</p>

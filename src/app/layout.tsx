@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CycleFlow - Calculateur de Cycle Menstruel",
+  title: "Cycle-nao - Calculateur de Cycle Menstruel",
   description:
     "Application simple et élégante pour suivre votre cycle menstruel, calculer l'ovulation et les périodes fertiles",
   icons: {

@@ -1,8 +1,8 @@
-# 🌸 CycleFlow - Calculateur de Cycle Menstruel
+# 🌸 Cycle-nao - Calculateur de Cycle Menstruel
 
 ## 📱 À propos du projet
 
-**CycleFlow** est une application web simple et intuitive qui aide les femmes à suivre leur cycle menstruel. Elle calcule automatiquement les dates importantes comme l'ovulation et les périodes fertiles, le tout dans une interface moderne et facile à utiliser.
+**Cycle-nao** est une application web simple et intuitive qui aide les femmes à suivre leur cycle menstruel. Elle calcule automatiquement les dates importantes comme l'ovulation et les périodes fertiles, le tout dans une interface moderne et facile à utiliser.
 
 ## ✨ Fonctionnalités principales
 
@@ -61,7 +61,7 @@ L'application calcule immédiatement :
 
 Cette application fournit des **estimations** basées sur des moyennes. Elle ne remplace **pas** un avis médical professionnel. Consultez toujours un·e médecin pour des conseils personnalisés.
 
-## 💡 Pourquoi utiliser CycleFlow ?
+## 💡 Pourquoi utiliser Cycle-nao ?
 
 - **Gratuit** : Pas d'achats dans l'application
 - **Simple** : Interface intuitive, pas de complications

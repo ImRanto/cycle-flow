@@ -36,7 +36,7 @@ const Header: React.FC = () => {
             {/* Titre principal */}
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
               <span className="text-white drop-shadow-lg">Cycle</span>
-              <span className="bg-gradient-to-r from-pink-300 via-rose-300 to-fuchsia-300 bg-clip-text text-transparent">Flow</span>
+              <span className="bg-gradient-to-r from-pink-300 via-rose-300 to-fuchsia-300 bg-clip-text text-transparent">-nao</span>
             </h1>
 
             {/* Sous-titre */}
