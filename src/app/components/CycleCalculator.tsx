@@ -37,6 +37,7 @@ const CycleCalculator: React.FC = () => {
 
   const [results, setResults] = useState<CycleResults | null>(null);
   const [isCalculated, setIsCalculated] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (!todayStr) return;
@@ -67,35 +68,37 @@ const CycleCalculator: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
 
-    const newValue = type === "number" ? parseInt(value) || 0 : value;
+    let newValue: string | number = value;
+    if (type === "number") {
+      newValue = Math.max(1, parseInt(value) || 0);
+    }
 
     const updatedData = {
       ...cycleData,
       [name]: newValue,
     };
 
+    // Validation: periodLength must be less than cycleLength
+    if (name === "periodLength" && typeof newValue === "number") {
+      updatedData.periodLength = Math.min(newValue, updatedData.cycleLength - 1);
+    }
+    if (name === "cycleLength" && typeof newValue === "number") {
+      updatedData.periodLength = Math.min(cycleData.periodLength, newValue - 1);
+    }
+
     setCycleData(updatedData);
 
     // Recalcul automatique si toutes les données sont valides
-    if (updatedData.startDate && updatedData.cycleLength > 0) {
+    if (updatedData.startDate && updatedData.cycleLength > 1) {
       calculateAndSetResults(updatedData);
     }
-  };
-
-  const handleCycleLengthChange = (value: number) => {
-    const updatedData = {
-      ...cycleData,
-      cycleLength: value,
-    };
-
-    setCycleData(updatedData);
-    calculateAndSetResults(updatedData);
   };
 
   const handleQuickSelect = (days: number) => {
     const updatedData = {
       ...cycleData,
       cycleLength: days,
+      periodLength: Math.min(cycleData.periodLength, days - 1),
     };
 
     setCycleData(updatedData);
@@ -104,15 +107,8 @@ const CycleCalculator: React.FC = () => {
 
   const handleSave = () => {
     localStorage.setItem("lastCycleData", JSON.stringify(cycleData));
-
-    // Animation de confirmation
-    const button = document.getElementById("saveButton");
-    if (button) {
-      button.textContent = "✓ Enregistré !";
-      setTimeout(() => {
-        button.textContent = "💾 Enregistrer les préférences";
-      }, 2000);
-    }
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 2000);
   };
 
   const quickCycleOptions = [
@@ -237,7 +233,7 @@ const CycleCalculator: React.FC = () => {
                             type="number"
                             id="cycleLength"
                             name="cycleLength"
-                            min="21"
+                            min="22"
                             max="45"
                             value={cycleData.cycleLength}
                             onChange={handleInputChange}
@@ -296,8 +292,8 @@ const CycleCalculator: React.FC = () => {
                             type="number"
                             id="periodLength"
                             name="periodLength"
-                            min="2"
-                            max="10"
+                            min="1"
+                            max={cycleData.cycleLength - 1}
                             value={cycleData.periodLength}
                             onChange={handleInputChange}
                             aria-label="Durée des règles en jours"
@@ -409,15 +405,23 @@ const CycleCalculator: React.FC = () => {
                 {/* Bouton d'enregistrement — Premium */}
                 <button
                   type="button"
-                  id="saveButton"
                   onClick={handleSave}
                   className="group relative w-full overflow-hidden rounded-2xl shadow-xl shadow-purple-500/20 hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 hover:-translate-y-0.5"
                 >
                   <div className="absolute inset-0 bg-linear-to-r from-purple-600 via-violet-600 to-pink-600"></div>
                   <div className="absolute inset-0 bg-linear-to-r from-purple-500 via-violet-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="relative z-10 py-4 px-6 flex items-center justify-center gap-3">
-                    <Save className="w-5 h-5 text-white group-hover:rotate-12 transition-transform duration-300" />
-                    <span className="text-white font-semibold text-lg">Enregistrer mes préférences</span>
+                    {isSaved ? (
+                      <>
+                        <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                        <span className="text-white font-semibold text-lg">Enregistré !</span>
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-5 h-5 text-white group-hover:rotate-12 transition-transform duration-300" />
+                        <span className="text-white font-semibold text-lg">Enregistrer mes préférences</span>
+                      </>
+                    )}
                   </div>
                 </button>
               </form>
