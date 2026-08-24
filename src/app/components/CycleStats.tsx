@@ -24,14 +24,14 @@ const CycleStats: React.FC<CycleStatsProps> = ({ results }) => {
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/40 shadow-lg">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-transparent"></div>
-      <div className="absolute top-0 right-0 w-24 h-24 bg-purple-300/20 rounded-full -translate-y-8 translate-x-8 blur-2xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/5 to-transparent"></div>
+      <div className="absolute top-0 right-0 w-20 h-20 bg-violet-300/20 rounded-full -translate-y-6 translate-x-6 blur-2xl"></div>
 
       <div className="relative z-10 p-6">
         {/* En-tête */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center border border-purple-100 shadow-sm">
-            <TrendingUp className="w-5 h-5 text-purple-600" />
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center border border-violet-100 shadow-sm">
+            <TrendingUp className="w-5 h-5 text-violet-600" />
           </div>
           <div>
             <h2 className="text-lg font-semibold text-gray-900">Prédictions</h2>
