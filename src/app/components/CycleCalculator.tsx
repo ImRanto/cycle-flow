@@ -293,40 +293,79 @@ const CycleCalculator: React.FC = () => {
                 </div>
 
                 {/* Phase lutéale */}
-                <div className="bg-linear-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
-                  <label htmlFor="lutealPhaseLength" className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <Moon className="w-5 h-5 text-indigo-600" />
-                    Phase lutéale
-                  </label>
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-                    <div className="flex-1">
-                      <div className="text-gray-600 mb-2">Durée (jours)</div>
-                      <input
-                        type="range"
-                        id="lutealPhaseLength"
-                        name="lutealPhaseLength"
-                        min="10"
-                        max="18"
-                        value={cycleData.lutealPhaseLength}
-                        onChange={handleInputChange}
-                        aria-label="Durée de la phase lutéale en jours"
-                        aria-valuemin={10}
-                        aria-valuemax={18}
-                        aria-valuenow={cycleData.lutealPhaseLength}
-                        aria-valuetext={`${cycleData.lutealPhaseLength} jours`}
-                        className="w-full h-3 bg-linear-to-r from-blue-200 to-indigo-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-600"
-                      />
-                      <div className="flex justify-between text-sm text-gray-500 mt-2">
-                        <span>10</span>
-                        <span>14 (standard)</span>
-                        <span>18</span>
+                <div className="relative overflow-hidden bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                  {/* Décoration d'arrière-plan */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full -translate-y-12 translate-x-12 opacity-40"></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-100 rounded-full translate-y-12 -translate-x-12 opacity-30"></div>
+
+                  <div className="relative z-10">
+                    {/* En-tête */}
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 bg-linear-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center shadow-md">
+                        <Moon className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">Phase lutéale</h3>
+                        <p className="text-xs text-gray-500">Après l'ovulation, avant les prochaines règles</p>
                       </div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-4xl font-bold text-indigo-600">
-                        {cycleData.lutealPhaseLength}
+
+                    {/* Affichage de la valeur avec indicateur visuel */}
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="flex-1 bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                        <div
+                          className="h-full bg-linear-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-300"
+                          style={{ width: `${((cycleData.lutealPhaseLength - 10) / 8) * 100}%` }}
+                        ></div>
                       </div>
-                      <div className="text-sm text-gray-500">jours</div>
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-4xl font-extrabold text-indigo-600 tabular-nums">
+                          {cycleData.lutealPhaseLength}
+                        </span>
+                        <span className="text-sm font-medium text-gray-500">jours</span>
+                      </div>
+                    </div>
+
+                    {/* Slider */}
+                    <label htmlFor="lutealPhaseLength" className="sr-only">
+                      Durée de la phase lutéale en jours
+                    </label>
+                    <input
+                      type="range"
+                      id="lutealPhaseLength"
+                      name="lutealPhaseLength"
+                      min="10"
+                      max="18"
+                      value={cycleData.lutealPhaseLength}
+                      onChange={handleInputChange}
+                      aria-label="Durée de la phase lutéale en jours"
+                      aria-valuemin={10}
+                      aria-valuemax={18}
+                      aria-valuenow={cycleData.lutealPhaseLength}
+                      aria-valuetext={`${cycleData.lutealPhaseLength} jours`}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-600 [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform"
+                    />
+
+                    {/* Étiquettes */}
+                    <div className="flex justify-between mt-2">
+                      {[10, 12, 14, 16, 18].map((val) => (
+                        <button
+                          key={val}
+                          type="button"
+                          onClick={() => {
+                            const updatedData = { ...cycleData, lutealPhaseLength: val };
+                            setCycleData(updatedData);
+                            calculateAndSetResults(updatedData);
+                          }}
+                          className={`text-xs px-2 py-1 rounded-md transition-all ${
+                            cycleData.lutealPhaseLength === val
+                              ? "bg-indigo-100 text-indigo-700 font-semibold"
+                              : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                          }`}
+                        >
+                          {val}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </div>
