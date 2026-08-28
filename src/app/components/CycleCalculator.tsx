@@ -119,8 +119,8 @@ const CycleCalculator: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-r from-gray-50 to-purple-50 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto pr-16 lg:pr-20">
+    <div className="min-h-screen bg-linear-to-r from-gray-50 to-purple-50 p-0 md:p-8">
+      <div className="max-w-7xl mx-auto pr-0 md:pr-16 lg:pr-20">
         {/* En-tête */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
@@ -136,7 +136,7 @@ const CycleCalculator: React.FC = () => {
           {/* Colonne gauche - Formulaire */}
           <div className="lg:col-span-2 space-y-8">
             {/* Carte principale du formulaire — Premium Glass */}
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+            <div className="relative overflow-hidden rounded-none md:rounded-3xl shadow-2xl">
               <div className="absolute inset-0 bg-white/80 backdrop-blur-xl"></div>
               <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 via-white to-pink-50/50"></div>
               <div className="absolute -top-20 -right-20 w-60 h-60 bg-purple-200/30 rounded-full blur-3xl"></div>
@@ -450,7 +450,7 @@ const CycleCalculator: React.FC = () => {
                 />
 
                 {/* Carte d'information */}
-                <div className="bg-linear-to-r from-white to-purple-50 rounded-2xl shadow-xl p-6 border border-purple-100">
+                <div className="bg-linear-to-r from-white to-purple-50 rounded-none md:rounded-2xl shadow-xl p-6 border border-purple-100">
                   <div className="flex items-center gap-3 mb-4">
                     <BarChart3 className="w-5 h-5 text-gray-600" />
                     <h3 className="text-xl font-bold text-gray-800">

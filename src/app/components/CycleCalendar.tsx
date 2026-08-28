@@ -157,7 +157,7 @@ const CycleCalendar: React.FC<CycleCalendarProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-6 animate-fade-in hover:shadow-2xl transition-shadow duration-300">
+    <div className="bg-white rounded-none md:rounded-2xl shadow-xl p-6 animate-fade-in hover:shadow-2xl transition-shadow duration-300">
       {/* En-tête avec navigation */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
